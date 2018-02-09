@@ -106,7 +106,7 @@ window.app = new Vue({
                     return;
                 }
             } else {
-                if (this.appState != "welcome") {
+                if (this.appState === "welcome") {
                     this.$refs.startLotteryButtonTooltip.$emit('disable');
                     this.$refs.startLotteryButtonTooltip.$emit('close');
                 }
@@ -121,14 +121,13 @@ window.app = new Vue({
             this.valueInputTooltipText = "Pleas enter something";
             this.keyInputTooltipText = "Pleas enter something";
 
-            console.log("Starting lottery");
             this.appState = "loading";
             shuffleArray(this.values);
 
             var self = this;
             setTimeout(function () {
                 self.appState = "result";
-            }, 1500);
+            }, 1000);
         },
         edit: function () {
             this.appState = "welcome";
