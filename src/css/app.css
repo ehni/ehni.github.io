@@ -5,7 +5,26 @@ body {
 }
   
 .box {
-    max-width: 330px;
-    padding: 15px;
+    padding: 5px;
     margin: 0 auto;
+}
+
+.icon-logo {
+    width: 48px;
+    height: 48px;
+    margin: 0 auto;
+}
+
+.list-input {
+}
+
+.bs-tooltip-top .arrow::before {
+    border-top-color: red;
+}
+.tooltip-inner {
+    background-color: red;
+}
+
+.tooltip.show {
+    opacity: 1;
 }

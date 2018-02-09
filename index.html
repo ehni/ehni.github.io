@@ -2,68 +2,128 @@
 <html lang="en">
 
 <head>
+    <!-- Required meta tags -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Zufalls Generator</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-        crossorigin="anonymous">
+    <title>Simple Lottery</title>
+    <link rel="shortcut icon" type="image/png" href="src/images/icons/icon-152x152.png">
+
+    <!-- Required Stylesheets -->
+    <link type="text/css" rel="stylesheet" href="src/css/bootstrap.min.css" />
+    <link type="text/css" rel="stylesheet" href="src/css/bootstrap-vue.css" />
+
+    <!-- Required scripts -->
+    <script src="src/js/vue.js"></script>
+    <script src="src/js/polyfill.min.js"></script>
+    <script src="src/js/bootstrap-vue.js"></script>
+    <script src="src/js/fontawesome.js"></script>
+
+    <!-- Custom css -->
     <link rel="stylesheet" href="src/css/spinner.css">
     <link rel="stylesheet" href="src/css/app.css">
 </head>
 
 <body>
-    <div class="container">
-        <div class="card box">
-            <div class="spinner content-spinner" style="display: none;">
-                <div class="double-bounce1"></div>
-                <div class="double-bounce2"></div>
-            </div>
-            <div class="card-body content-result" style="display: none;">
-                <h5 class="card-title text-center">Ergebnis</h5>
-                <p class="card-text">
-                    <table class="table">
-                        <!-- <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Kostüm</th>
-                            </tr>
-                        </thead> -->
-                        <tbody>
-                            <tr>
-                                <td>Wolfgang</td>
-                                <td><span class="costume-wolfgang"></td>
-                            </tr>
-                            <tr>
-                                <td>Lena</td>
-                                <td><span class="costume-lena"></td>
-                            </tr>
-                            <tr>
-                                <td>Robert</td>
-                                <td><span class="costume-robert"></td>
-                            </tr>
-                            <tr>
-                                <td>Patrick</td>
-                                <td><span class="costume-patrick"></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </p>
-            </div>
-            <div class="card-body content-welcome">
-                <h5 class="card-title text-center">Herzlich willkommen</h5>
-                <p class="card-text text-center">Hier kannst du ganz zufällig Kostüme für Fasching auslosen lassen. Ganz zufällig. Versprochen!</p>
-            </div>
-            <button class="btn btn-lg btn-primary btn-block button-start">Kostum auslösen!</button>
-        </div>
-
+    <div id="app">
+        <b-container>
+            <b-card class="box">
+                <div v-if="appState === 'welcome'">
+                    <div class="b-row text-center">
+                        <b-img class="icon-logo" src="src/images/icons/icon-152x152.png" alt="Quick Lottery Icon" />
+                    </div>
+                    <div class="b-row text-center">
+                        <h1>Welcome!</h1>
+                    </div>
+                    <p class="card-text text-center">
+                        Put in some names and values you want to randomly assign them and you're ready to go!
+                    </p>
+                    <div class="b-row text-center">
+                        <h4>
+                            Here you can put in some names to draw lots for.
+                        </h4>
+                    </div>
+                    <b-list-group class="list-input">
+                        <b-list-group-item v-for="key in keys" :key=key.id style="display: flex; justify-content: space-between; align-items: center;">
+                            {{ key.name }}
+                            <div>
+                                <b-button v-on:click="removeKey(key.id)" variant="link">
+                                    <i class="fas fa-trash-alt"></i>
+                                </b-button>
+                            </div>
+                        </b-list-group-item>
+                        <b-list-group-item style="display: flex; justify-content: space-between; align-items: center;">
+                            <b-form-input id="keyInput" @keydown.native="test_keydown_handler" v-model="newKey"></b-form-input>
+                            <b-tooltip ref="keyInputTooltip" target="keyInput" :disabled="true">
+                                {{ keyInputTooltipText }}
+                            </b-tooltip>
+                            <div>
+                                <b-button v-on:click="addKey" variant="link">
+                                    <i class="fas fa-plus"></i>
+                                </b-button>
+                            </div>
+                        </b-list-group-item>
+                    </b-list-group>
+                    <div class="b-row text-center">
+                        <h4>
+                            Here can put in some lots to draw from.
+                        </h4>
+                    </div>
+                    <b-list-group class="list-input">
+                        <b-list-group-item v-for="value in values" :key=value.id style="display: flex; justify-content: space-between; align-items: center;">
+                            {{ value.name }}
+                            <div>
+                                <b-button v-on:click="removeValue(value.id)" variant="link">
+                                    <i class="fas fa-trash-alt"></i>
+                                </b-button>
+                            </div>
+                        </b-list-group-item>
+                        <b-list-group-item style="display: flex; justify-content: space-between; align-items: center;">
+                            <b-form-input id="valueInput" @keydown.native="test_keydown_handler" v-model="newValue"></b-form-input>
+                            <b-tooltip ref="valueInputTooltip" target="valueInput" :disabled="true">
+                                {{ valueInputTooltipText }}
+                            </b-tooltip>
+                            <div>
+                                <b-button v-on:click="addValue" variant="link">
+                                    <i class="fas fa-plus"></i>
+                                </b-button>
+                            </div>
+                        </b-list-group-item>
+                    </b-list-group>
+                    <div class="b-row text-center" style="padding-top: 10px;">
+                        <b-button id="buttonStartLottery" v-on:click="startLottery" variant="primary">Start lottery!</b-button>
+                        <b-tooltip ref="startLotteryButtonTooltip" target="buttonStartLottery" :disabled="true">
+                            You know this makes no sense, right?
+                        </b-tooltip>
+                    </div>
+                </div>
+                <div v-if="appState === 'result'">
+                    <div class="b-row text-center">
+                        <h1>Result</h1>
+                    </div>
+                    <b-list-group class="list-input">
+                        <b-list-group-item v-for="(key, index) in keys" :key=key.id style="display: flex; justify-content: space-between; align-items: center;">
+                            {{ key.name }}: {{ values[index].name }}
+                        </b-list-group-item>
+                    </b-list-group>
+                    <div class="b-row text-center" style="padding-top: 10px;">
+                        <b-button v-on:click="startLottery" variant="primary">Restart!</b-button>
+                    </div>
+                    <div class="b-row text-center" style="padding-top: 10px;">
+                        <b-button v-on:click="edit" variant="primary">Edit</b-button>
+                    </div>
+                </div>
+                <div v-if="appState === 'loading'">
+                    <div class="spinner">
+                        <div class="double-bounce1"></div>
+                        <div class="double-bounce2"></div>
+                    </div>
+                </div>
+            </b-card>
+        </b-container>
     </div>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js " integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN "
-        crossorigin="anonymous "></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js " integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q "
-        crossorigin="anonymous "></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js " integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl "
-        crossorigin="anonymous "></script>
+
+    <!-- Custom js -->
     <script src="/src/js/app.js "></script>
 </body>
 

@@ -1,41 +1,140 @@
-var button = document.querySelector(".button-start");
-var spinner = document.querySelector(".content-spinner");
-var result = document.querySelector(".content-result");
-var card = document.querySelector(".content-welcome");
-var wolfgang = document.querySelector(".costume-wolfgang");
-var robert = document.querySelector(".costume-robert");
-var patrick = document.querySelector(".costume-patrick");
-var lena = document.querySelector(".costume-lena");
-var costumes = ["Melone", "Orange", "Ananas"];
+// Register service worker
+if ("serviceWorker" in navigator) {
+    navigator.serviceWorker
+        .register("/sw.js")
+        .then(function(event) {
+            console.log("[APP] Service worker registered", event);
+        })
+        .catch(function(err) {
+            console.log("[APP] Error registering the service worker", err)
+        })
+}
 
-button.addEventListener("click", function(event) {
-    event.preventDefault();
+var list_keys = [];
+var list_values = [];
 
-    spinner.style.display = "block";
-    button.style.display = "none";
-    result.style.display = "none";
-    card.style.display = "none";
+function removeItemByIdFromArray(list, itemId) {
+    return list = list.filter(key => key.id !== itemId)
+}
 
-    setTimeout(function() {
-        spinner.style.display = "none";
-        result.style.display = "block";
-        button.style.display = "block";
+function addItemToArray(list, content) {
+    list.push({ id: new Date().toISOString(), name: content });
+}
 
-        shuffle(costumes);
-        robert.textContent = "Kiwi";
-        lena.textContent = costumes[0];
-        wolfgang.textContent = costumes[1];
-        patrick.textContent = costumes[2];
-        
-        button.textContent = "Nochmal! Nochmal!";
-    }, 3000);
+window.app = new Vue({
+    el: "#app",
+    data: {
+        appState: "welcome",
+        valueInputTooltipText: "Please enter something",
+        keyInputTooltipText: "Please enter something",
+        nonsense: false,
+        newKey: "",
+        newValue: "",
+        keys: list_keys,
+        values: list_values
+    },
+    methods: {
+        addKey: function () {
+            if (this.newKey.length && this.newKey) {
+                addItemToArray(this.keys, this.newKey);
+                this.newKey = "";
+                this.$refs.keyInputTooltip.$emit('close');
+                this.$refs.keyInputTooltip.$emit('disable');
+            } else {
+                this.$refs.keyInputTooltip.$emit('enable');
+                this.$refs.keyInputTooltip.$emit('open');
+            }
+        },
+        addValue: function () {
+            if (this.newValue.length && this.newValue) {
+                addItemToArray(this.values, this.newValue)
+                this.newValue = "";
+                this.$refs.valueInputTooltip.$emit('close');
+                this.$refs.valueInputTooltip.$emit('disable');
+            } else {
+                this.$refs.valueInputTooltip.$emit('enable');
+                this.$refs.valueInputTooltip.$emit('open');
+            }
+        },
+        removeKey: function (id) {
+            this.keys = removeItemByIdFromArray(this.keys, id);
+        },
+        removeValue: function (id) {
+            this.values = removeItemByIdFromArray(this.values, id);
+        },
+        test_keydown_handler: function (event) {
+            if (event.which === 13) {
+                if (event.target.id === "keyInput") {
+                    this.addKey();
+                } else if (event.target.id === "valueInput") {
+                    this.addValue();
+                }
+            }
+        },
+        startLottery: function () {
+            let isReady = true;
+            if (this.keys.length === 0 && !this.keys[0]) {
+                this.$refs.keyInputTooltip.$emit('enable');
+                this.$refs.keyInputTooltip.$emit('open');
+                isReady = false;
+            }
+
+            if (this.values.length === 0 && !this.values[0]) {
+                this.$refs.valueInputTooltip.$emit('enable');
+                this.$refs.valueInputTooltip.$emit('open');
+                isReady = false;
+            }
+
+            if (this.values.length != this.keys.length) {
+                isReady = false;
+                if (this.values.length > this.keys.length) {
+                    this.$refs.keyInputTooltip.$emit('enable');
+                    this.keyInputTooltipText = "Need more input!";
+                    this.$refs.keyInputTooltip.$emit('open');
+                } else {
+                    this.$refs.valueInputTooltip.$emit('enable');
+                    this.valueInputTooltipText = "Need more input!";
+                    this.$refs.valueInputTooltip.$emit('open');
+                }
+            }
+
+            if (this.values.length == this.keys.length && this.values.length == 1) {
+                if (!this.nonsense) {
+                    this.$refs.startLotteryButtonTooltip.$emit('enable');
+                    this.$refs.startLotteryButtonTooltip.$emit('open');
+                    this.nonsense = true;
+                    return;
+                }
+            }
+
+            if (!isReady) {
+                return;
+            }
+
+            this.valueInputTooltipText = "Pleas enter something";
+            this.keyInputTooltipText = "Pleas enter something";
+
+            console.log("Starting lottery");
+            this.appState = "loading";
+            shuffleArray(this.values);
+
+            var self = this;
+            setTimeout(function () {
+                self.appState = "result";
+            }, 1500);
+        },
+        edit: function () {
+            this.appState = "welcome";
+        }
+
+    }
 })
 
 /**
  * Shuffles array in place.
  * @param {Array} a items An array containing the items.
  */
-function shuffle(a) {
+function shuffleArray(a) {
     var j, x, i;
     for (i = a.length - 1; i > 0; i--) {
         j = Math.floor(Math.random() * (i + 1));
