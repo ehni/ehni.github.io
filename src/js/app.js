@@ -98,13 +98,16 @@ window.app = new Vue({
                 }
             }
 
-            if (this.values.length == this.keys.length && this.values.length == 1) {
+            if (this.values.length == this.keys.length == 1) {
                 if (!this.nonsense) {
                     this.$refs.startLotteryButtonTooltip.$emit('enable');
                     this.$refs.startLotteryButtonTooltip.$emit('open');
                     this.nonsense = true;
                     return;
                 }
+            } else {
+                this.$refs.startLotteryButtonTooltip.$emit('disable');
+                this.$refs.startLotteryButtonTooltip.$emit('close');
             }
 
             if (!isReady) {
