@@ -98,7 +98,7 @@ window.app = new Vue({
                 }
             }
 
-            if (this.values.length == this.keys.length == 1) {
+            if (this.values.length == this.keys.length && this.keys.length == 1) {
                 if (!this.nonsense) {
                     this.$refs.startLotteryButtonTooltip.$emit('enable');
                     this.$refs.startLotteryButtonTooltip.$emit('open');
@@ -113,6 +113,8 @@ window.app = new Vue({
             if (!isReady) {
                 return;
             }
+
+            this.nonsense = false;
 
             this.valueInputTooltipText = "Pleas enter something";
             this.keyInputTooltipText = "Pleas enter something";

@@ -1,4 +1,5 @@
 var STATIC_CACHE_NAME = "lottery-static-cache-v1";
+var DYNAMIC_CACHE_NAME = "lottery-dynamic-cache-v1";
 var APP_SHELL = [
     "/",
     "/index.html",
@@ -11,24 +12,23 @@ var APP_SHELL = [
     "/src/js/bootstrap-vue.js",
     "/src/js/polyfill.min.js",
     "/src/js/fontawesome.js",
-    "/src/images/icons/icon-152x152.png",
 ];
 
 self.addEventListener("install", function (event) {
     event.waitUntil(
         caches.open(STATIC_CACHE_NAME)
-        .then(function (cache) {
-            cache.addAll(APP_SHELL);
-            console.log("[Service Worker] Cache initialized & service worker installed");
-        })
+            .then(function (cache) {
+                cache.addAll(APP_SHELL);
+                console.log("[Service Worker] Cache initialized & service worker installed");
+            })
     )
 })
 
 self.addEventListener("fetch", function (event) {
     event.respondWith(
         fromCache(event.request)
-        .catch(fromServer(
-            event.request))
+            .catch(fromServer(
+                event.request))
     );
 
     event.waitUntil(
@@ -38,10 +38,8 @@ self.addEventListener("fetch", function (event) {
 
 function fromCache(request) {
     //we pull files from the cache first thing so we can show them fast
-    return caches.open(STATIC_CACHE_NAME).then(function (cache) {
-        return cache.match(request).then(function (matching) {
-            return matching || Promise.reject('no-match');
-        });
+    return caches.match(request).then(function (matching) {
+        return matching || Promise.reject('no-match');
     });
 }
 
