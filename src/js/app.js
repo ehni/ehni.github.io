@@ -2,10 +2,10 @@
 if ("serviceWorker" in navigator) {
     navigator.serviceWorker
         .register("/sw.js")
-        .then(function(event) {
+        .then(function (event) {
             console.log("[APP] Service worker registered", event);
         })
-        .catch(function(err) {
+        .catch(function (err) {
             console.log("[APP] Error registering the service worker", err)
         })
 }
@@ -106,8 +106,10 @@ window.app = new Vue({
                     return;
                 }
             } else {
-                this.$refs.startLotteryButtonTooltip.$emit('disable');
-                this.$refs.startLotteryButtonTooltip.$emit('close');
+                if (this.appState != "welcome") {
+                    this.$refs.startLotteryButtonTooltip.$emit('disable');
+                    this.$refs.startLotteryButtonTooltip.$emit('close');
+                }
             }
 
             if (!isReady) {
