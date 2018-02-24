@@ -6,6 +6,6 @@ function addToCache() {
 
 function removeFromCache() {
     navigator.serviceWorker.controller.postMessage({
-        action: 'removeOfflineTestToCache'
+        action: 'removeOfflineTestFromCache'
     });
 }
