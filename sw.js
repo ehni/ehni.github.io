@@ -1,4 +1,4 @@
-var STATIC_CACHE_NAME = "lottery-static-cache-v4";
+var STATIC_CACHE_NAME = "lottery-static-cache-v1";
 var DYNAMIC_CACHE_NAME = "lottery-dynamic-cache-v1";
 var allCaches = [
     STATIC_CACHE_NAME,
@@ -119,7 +119,7 @@ self.addEventListener("message", function (event) {
                     })
 
             })
-    } else if (event.data.action === "removeOfflineTestToCache") {
+    } else if (event.data.action === "removeOfflineTestFromCache") {
         caches.open(DYNAMIC_CACHE_NAME)
             .then(function (dynamic_cache) {
                 dynamic_cache.match("/offline-test")
