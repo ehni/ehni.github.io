@@ -1,4 +1,4 @@
-var STATIC_CACHE_NAME = "lottery-static-cache-v3";
+var STATIC_CACHE_NAME = "lottery-static-cache-v4";
 var DYNAMIC_CACHE_NAME = "lottery-dynamic-cache-v1";
 var allCaches = [
     STATIC_CACHE_NAME,
