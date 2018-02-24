@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Simple Lottery</title>
+    <link rel="shortcut icon" type="image/png" href="images/icons/icon-48x48.png">
+
+    <!-- Manifest -->
+    <link rel="manifest" href="/manifest.json">
+
+    <meta name="theme-color" content="#eee" />
+
+    <!-- Required Stylesheets -->
+    <link type="text/css" rel="stylesheet" href="vendor/css/bootstrap.min.css" />
+    <link type="text/css" rel="stylesheet" href="vendor/css/bootstrap-vue.css" />
+    <link type="text/css" rel="stylesheet" href="vendor/css/toastify.min.css" />
+
+    <!-- Custom css -->
+    <link rel="stylesheet" href="css/app.css">
+</head>
+
+<body>
+    <div id="app">
+        <b-navbar toggleable="md" type="dark" variant="info">
+            <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
+
+            <b-navbar-brand href="/">
+                <img src="images/icons/icon-192x192.png" class="d-inline-block align-top" style="max-height: 25px;" alt="Simple Lottery Logo"> Simple Lottery
+            </b-navbar-brand>
+
+            <b-collapse is-nav id="nav_collapse">
+                <b-navbar-nav>
+                    <b-nav-item href="/">
+                        Lottery
+                    </b-nav-item>
+                    <b-nav-item href="/">
+                        About
+                    </b-nav-item>
+                    <b-nav-item href="/offline-test" class="active">
+                        Offline-Test
+                    </b-nav-item>
+                </b-navbar-nav>
+            </b-collapse>
+        </b-navbar>
+        <b-container>
+           <b-card class="box">
+                <p class="card-text text-center">
+                    <span class="page-title">Offline-Test!</span>
+                </p>
+                <br>
+                <p class="card-text text-center">
+                    This page is not automatically cached from the service worker. So when you go into airplane mode and you try to visit this site you should get an error message.
+                    When you manually cache this side you can also visit it without a network connection.
+                </p>
+                <b-row>
+                    <b-button-group style="width: 100% !important; text-align: center !important;">
+                        <div style="width: 100%">
+                            <b-button onclick="addToCache()" variant="primary">
+                                Add to cache
+                            </b-button>
+                            <b-button onclick="removeFromCache()" variant="primary">
+                                Remove from cache
+                            </b-button>
+                        </div>
+                    </b-button-group>
+                </b-row>
+                <br>
+            </b-card>
+        </b-container>
+    </div>
+
+    <!-- Required scripts -->
+    <script src="vendor/js/vue.min.js"></script>
+    <script src="vendor/js/bootstrap-vue.js"></script>
+    <script src="vendor/js/toastify-js.js"></script>
+    <script src="vendor/js/fontawesome.js"></script>
+
+    <!-- Custom js -->
+    <script src="js/app.js "></script>
+    <script src="js/offline-test.js"></script>
+</body>
+
+</html>
