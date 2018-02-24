@@ -28,7 +28,7 @@ if ("serviceWorker" in navigator) {
     
                                 let toast = document.querySelector(".toastify");
                                 toast.addEventListener("click", function (event) {
-                                    reg.waiting.postMessage({
+                                    installingWorker.postMessage({
                                         action: 'skipWaiting'
                                     });
                                     toast.remove();
