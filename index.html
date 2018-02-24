@@ -12,15 +12,7 @@
     <!-- Manifest -->
     <link rel="manifest" href="/manifest.json">
 
-    <meta name="theme-color" content="#eee" />
-
-    <!-- Required Stylesheets -->
-    <link type="text/css" rel="stylesheet" href="vendor/css/bootstrap.min.css" />
-    <link type="text/css" rel="stylesheet" href="vendor/css/bootstrap-vue.css" />
-    <link type="text/css" rel="stylesheet" href="vendor/css/toastify.min.css" />
-
-    <!-- Custom css -->
-    <link rel="stylesheet" href="css/app.css">
+    <meta name="theme-color" content="#007bff">
 </head>
 
 <body>
@@ -61,7 +53,7 @@
                                     <b-list-group-item v-for="key in keys" :key=key.id style="display: flex; justify-content: space-between; align-items: center;">
                                         {{ key.name }}
                                         <div>
-                                            <b-button v-on:click="removeKey(key.id)" variant="link">
+                                            <b-button v-on:click="removeKey(key.id)" variant="link" aria-label="removeKeyFromList">
                                                 <i class="fas fa-trash-alt"></i>
                                             </b-button>
                                         </div>
@@ -72,7 +64,7 @@
                                             {{ keyInputTooltipText }}
                                         </b-tooltip>
                                         <div>
-                                            <b-button v-on:click="addKey" variant="link">
+                                            <b-button v-on:click="addKey" variant="link" aria-label="addKeyToList">
                                                 <i class="fas fa-plus"></i>
                                             </b-button>
                                         </div>
@@ -93,7 +85,7 @@
                                     <b-list-group-item v-for="value in values" :key=value.id style="display: flex; justify-content: space-between; align-items: center;">
                                         {{ value.name }}
                                         <div>
-                                            <b-button v-on:click="removeValue(value.id)" variant="link">
+                                            <b-button v-on:click="removeValue(value.id)" variant="link" aria-label="removeValueFromList">
                                                 <i class="fas fa-trash-alt"></i>
                                             </b-button>
                                         </div>
@@ -104,7 +96,7 @@
                                             {{ valueInputTooltipText }}
                                         </b-tooltip>
                                         <div>
-                                            <b-button v-on:click="addValue" variant="link">
+                                            <b-button v-on:click="addValue" variant="link" aria-label="addValueToList">
                                                 <i class="fas fa-plus"></i>
                                             </b-button>
                                         </div>
@@ -115,7 +107,7 @@
                     </b-row>
                     <br>
                     <div class="b-row text-center" style="padding-top: 10px;">
-                        <b-button id="buttonStartLottery" v-on:click="startLottery" variant="primary">
+                        <b-button id="buttonStartLottery" v-on:click="startLottery" variant="primary" aria-label="startLottery">
                             <i class="fas fa-chevron-circle-right"></i>
                             <span>
                                 Start lottery
@@ -141,11 +133,11 @@
                     <b-row>
                         <b-button-group style="width: 100% !important; text-align: center !important;">
                             <div style="width: 100%">
-                                <b-button v-on:click="startLottery" variant="primary">
+                                <b-button v-on:click="startLottery" variant="primary" aria-label="restartLottery">
                                     <i class="fas fa-sync"></i>
                                     Restart
                                 </b-button>
-                                <b-button v-on:click="edit" variant="primary">
+                                <b-button v-on:click="edit" variant="primary" aria-label="editEntries">
                                     <i class="fas fa-edit"></i>
                                     Edit
                                 </b-button>
@@ -175,6 +167,14 @@
             </b-card>
         </b-container>
     </div>
+
+    <!-- Required Stylesheets -->
+    <link type="text/css" rel="stylesheet" href="vendor/css/bootstrap.min.css" />
+    <link type="text/css" rel="stylesheet" href="vendor/css/bootstrap-vue.css" />
+    <link type="text/css" rel="stylesheet" href="vendor/css/toastify.min.css" />
+
+    <!-- Custom css -->
+    <link rel="stylesheet" href="css/app.css">
 
     <!-- Required scripts -->
     <script src="vendor/js/vue.min.js"></script>

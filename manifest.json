@@ -1,5 +1,5 @@
 {
-    "short_name": "Simple Lottery",
+    "short_name": "Lottery",
     "name": "Quick Lottery",
     "icons": [
       {
@@ -31,5 +31,5 @@
     "display": "standalone",
     "orientation": "portrait",
     "theme_color": "#007bff",
-    "background_color": "#eee"
+    "background_color": "#007bff"
   }
