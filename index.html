@@ -16,160 +16,206 @@
 </head>
 
 <body>
+
     <div id="app">
-        <b-navbar toggleable="md" type="dark" variant="info">
-            <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
+        <div id="loading-spinner" v-if="!$data">
+            <nav class="navbar navbar-dark bg-info navbar-expand-md">
+                <button type="button" aria-label="Toggle navigation" aria-controls="nav_collapse" aria-expanded="false" class="navbar-toggler">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <a href="#" target="_self" class="navbar-brand">
+                    <img src="images/icons/icon-192x192.png" alt="Simple Lottery Logo" class="d-inline-block align-top" style="max-height: 25px;"> Simple Lottery
+                </a>
+                <div id="nav_collapse" class="navbar-collapse collapse" style="display: none;">
+                    <ul class="navbar-nav">
+                        <li class="nav-item active">
+                            <a href="#" target="_self" class="nav-link">
+                                Lottery
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                About
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/offline-test" class="nav-link">
+                                Offline-Test #1
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/offline-test-2" class="nav-link">
+                                Offline-Test #2
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <div class="loading-spinner">
+                <div class="lds-ellipsis">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </div>
+        </div>
+        <div id="content" v-cloak>
+            <b-navbar toggleable="md" type="dark" variant="info">
+                <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
 
-            <b-navbar-brand href="#" @click="page = 'lottery'">
-                <img src="images/icons/icon-192x192.png" class="d-inline-block align-top" style="max-height: 25px;" alt="Simple Lottery Logo"> Simple Lottery
-            </b-navbar-brand>
+                <b-navbar-brand href="#" @click="page = 'lottery'">
+                    <img src="images/icons/icon-192x192.png" class="d-inline-block align-top" style="max-height: 25px;" alt="Simple Lottery Logo"> Simple Lottery
+                </b-navbar-brand>
 
-            <b-collapse is-nav id="nav_collapse">
-                <b-navbar-nav>
-                    <b-nav-item href="#" @click="page = 'lottery'" v-bind:class="{ active: page === 'lottery'}">
-                        Lottery
-                    </b-nav-item>
-                    <b-nav-item href="#" @click="page = 'about'" v-bind:class="{ active: page === 'about'}">
-                        About
-                    </b-nav-item>
-                    <b-nav-item href="/offline-test">
-                        Offline-Test
-                    </b-nav-item>
-                    <b-nav-item href="/offline-test-2">
-                        Offline-Test #2
-                    </b-nav-item>
-                </b-navbar-nav>
-            </b-collapse>
-        </b-navbar>
-        <b-container>
-            <b-card class="box" v-if="page === 'lottery'">
-                <div v-if="appState === 'welcome'">
-                    <b-row>
-                        <b-col sm="6">
-                            <div class="text-center card-text">
-                                <h4>
-                                    Add names
-                                </h4>
-                            </div>
-                            <div class="input-divs">
-                                <b-list-group class="list-input">
-                                    <b-list-group-item v-for="key in keys" :key=key.id style="display: flex; justify-content: space-between; align-items: center;">
-                                        {{ key.name }}
-                                        <div>
-                                            <b-button v-on:click="removeKey(key.id)" variant="link" aria-label="removeKeyFromList">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </b-button>
-                                        </div>
-                                    </b-list-group-item>
-                                    <b-list-group-item style="display: flex; justify-content: space-between; align-items: center;">
-                                        <b-form-input id="keyInput" @keydown.native="test_keydown_handler" v-model="newKey"></b-form-input>
-                                        <b-tooltip ref="keyInputTooltip" target="keyInput" :disabled="true">
-                                            {{ keyInputTooltipText }}
-                                        </b-tooltip>
-                                        <div>
-                                            <b-button v-on:click="addKey" variant="link" aria-label="addKeyToList">
-                                                <i class="fas fa-plus"></i>
-                                            </b-button>
-                                        </div>
-                                    </b-list-group-item>
-                                </b-list-group>
-                            </div>
+                <b-collapse is-nav id="nav_collapse">
+                    <b-navbar-nav>
+                        <b-nav-item href="#" @click="page = 'lottery'" v-bind:class="{ active: page === 'lottery'}">
+                            Lottery
+                        </b-nav-item>
+                        <b-nav-item href="#" @click="page = 'about'" v-bind:class="{ active: page === 'about'}">
+                            About
+                        </b-nav-item>
+                        <b-nav-item href="/offline-test">
+                            Offline-Test #1
+                        </b-nav-item>
+                        <b-nav-item href="/offline-test-2">
+                            Offline-Test #2
+                        </b-nav-item>
+                    </b-navbar-nav>
+                </b-collapse>
+            </b-navbar>
+            <b-container>
+                <b-card class="box" v-if="page === 'lottery'">
+                    <div v-if="appState === 'welcome'">
+                        <b-row>
+                            <b-col sm="6">
+                                <div class="text-center card-text">
+                                    <h4>
+                                        Add names
+                                    </h4>
+                                </div>
+                                <div class="input-divs">
+                                    <b-list-group class="list-input">
+                                        <b-list-group-item v-for="key in keys" :key=key.id style="display: flex; justify-content: space-between; align-items: center;">
+                                            {{ key.name }}
+                                            <div>
+                                                <b-button v-on:click="removeKey(key.id)" variant="link" aria-label="removeKeyFromList">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </b-button>
+                                            </div>
+                                        </b-list-group-item>
+                                        <b-list-group-item style="display: flex; justify-content: space-between; align-items: center;">
+                                            <b-form-input id="keyInput" @keydown.native="test_keydown_handler" v-model="newKey"></b-form-input>
+                                            <b-tooltip ref="keyInputTooltip" target="keyInput" :disabled="true">
+                                                {{ keyInputTooltipText }}
+                                            </b-tooltip>
+                                            <div>
+                                                <b-button v-on:click="addKey" variant="link" aria-label="addKeyToList">
+                                                    <i class="fas fa-plus"></i>
+                                                </b-button>
+                                            </div>
+                                        </b-list-group-item>
+                                    </b-list-group>
+                                </div>
+                                <br>
+                            </b-col>
                             <br>
-                        </b-col>
+                            <b-col sm="6">
+                                <div class="text-center card-text">
+                                    <h4>
+                                        Add lots
+                                    </h4>
+                                </div>
+                                <div class="input-divs">
+                                    <b-list-group class="list-input">
+                                        <b-list-group-item v-for="value in values" :key=value.id style="display: flex; justify-content: space-between; align-items: center;">
+                                            {{ value.name }}
+                                            <div>
+                                                <b-button v-on:click="removeValue(value.id)" variant="link" aria-label="removeValueFromList">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </b-button>
+                                            </div>
+                                        </b-list-group-item>
+                                        <b-list-group-item style="display: flex; justify-content: space-between; align-items: center;">
+                                            <b-form-input id="valueInput" @keydown.native="test_keydown_handler" v-model="newValue"></b-form-input>
+                                            <b-tooltip ref="valueInputTooltip" target="valueInput" :disabled="true">
+                                                {{ valueInputTooltipText }}
+                                            </b-tooltip>
+                                            <div>
+                                                <b-button v-on:click="addValue" variant="link" aria-label="addValueToList">
+                                                    <i class="fas fa-plus"></i>
+                                                </b-button>
+                                            </div>
+                                        </b-list-group-item>
+                                    </b-list-group>
+                                </div>
+                            </b-col>
+                        </b-row>
                         <br>
-                        <b-col sm="6">
-                            <div class="text-center card-text">
-                                <h4>
-                                    Add lots
-                                </h4>
-                            </div>
-                            <div class="input-divs">
-                                <b-list-group class="list-input">
-                                    <b-list-group-item v-for="value in values" :key=value.id style="display: flex; justify-content: space-between; align-items: center;">
-                                        {{ value.name }}
-                                        <div>
-                                            <b-button v-on:click="removeValue(value.id)" variant="link" aria-label="removeValueFromList">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </b-button>
-                                        </div>
-                                    </b-list-group-item>
-                                    <b-list-group-item style="display: flex; justify-content: space-between; align-items: center;">
-                                        <b-form-input id="valueInput" @keydown.native="test_keydown_handler" v-model="newValue"></b-form-input>
-                                        <b-tooltip ref="valueInputTooltip" target="valueInput" :disabled="true">
-                                            {{ valueInputTooltipText }}
-                                        </b-tooltip>
-                                        <div>
-                                            <b-button v-on:click="addValue" variant="link" aria-label="addValueToList">
-                                                <i class="fas fa-plus"></i>
-                                            </b-button>
-                                        </div>
-                                    </b-list-group-item>
-                                </b-list-group>
-                            </div>
-                        </b-col>
-                    </b-row>
+                        <div class="b-row text-center" style="padding-top: 10px;">
+                            <b-button id="buttonStartLottery" v-on:click="startLottery" variant="primary" aria-label="startLottery">
+                                <i class="fas fa-chevron-circle-right"></i>
+                                <span>
+                                    Start lottery
+                                </span>
+                            </b-button>
+                            <b-tooltip ref="startLotteryButtonTooltip" target="buttonStartLottery" :disabled="true">
+                                You know this makes no sense, right?
+                            </b-tooltip>
+                        </div>
+                    </div>
+                    <div v-if="appState === 'result'">
+                        <div class="b-row text-center">
+                            <h1>Result</h1>
+                        </div>
+                        <b-list-group class="list-input">
+                            <b-list-group-item v-for="(key, index) in keys" :key=key.id style="width: 80%; margin: 0 auto;">
+                                <span class="key">{{ key.name }}</span>
+                                &nbsp;->&nbsp;
+                                <span class="value">{{ values[index].name }}</span>
+                            </b-list-group-item>
+                        </b-list-group>
+                        <br>
+                        <b-row>
+                            <b-button-group style="width: 100% !important; text-align: center !important;">
+                                <div style="width: 100%">
+                                    <b-button v-on:click="startLottery" variant="primary" aria-label="restartLottery">
+                                        <i class="fas fa-sync"></i>
+                                        Restart
+                                    </b-button>
+                                    <b-button v-on:click="edit" variant="primary" aria-label="editEntries">
+                                        <i class="fas fa-edit"></i>
+                                        Edit
+                                    </b-button>
+                                </div>
+                            </b-button-group>
+                        </b-row>
+                    </div>
+                    <div v-if="appState === 'loading'">
+                        <div class="loadingBar">
+                            <p style="text-align: center;">Shuffling...</p>
+                            <b-progress :value="loadingCounter" :max="100" animated></b-progress>
+                        </div>
+                    </div>
+                </b-card>
+                <b-card class="box" v-if="page === 'about'">
+                    <p class="card-text text-center">
+                        <img src="images/icons/icon-192x192.png" class="d-inline-block align-top" style="max-height: 50px;" alt="Simple Lottery Logo">
+                    </p>
+                    <p class="card-text text-center">
+                        <span class="page-title">Welcome!</span>
+                    </p>
                     <br>
-                    <div class="b-row text-center" style="padding-top: 10px;">
-                        <b-button id="buttonStartLottery" v-on:click="startLottery" variant="primary" aria-label="startLottery">
-                            <i class="fas fa-chevron-circle-right"></i>
-                            <span>
-                                Start lottery
-                            </span>
-                        </b-button>
-                        <b-tooltip ref="startLotteryButtonTooltip" target="buttonStartLottery" :disabled="true">
-                            You know this makes no sense, right?
-                        </b-tooltip>
-                    </div>
-                </div>
-                <div v-if="appState === 'result'">
-                    <div class="b-row text-center">
-                        <h1>Result</h1>
-                    </div>
-                    <b-list-group class="list-input">
-                        <b-list-group-item v-for="(key, index) in keys" :key=key.id style="width: 80%; margin: 0 auto;">
-                            <span class="key">{{ key.name }}</span>
-                            &nbsp;->&nbsp;
-                            <span class="value">{{ values[index].name }}</span>
-                        </b-list-group-item>
-                    </b-list-group>
+                    <p class="card-text text-center">
+                        Put in some names and values you want to randomly assign them and you're ready to go!
+                    </p>
                     <br>
-                    <b-row>
-                        <b-button-group style="width: 100% !important; text-align: center !important;">
-                            <div style="width: 100%">
-                                <b-button v-on:click="startLottery" variant="primary" aria-label="restartLottery">
-                                    <i class="fas fa-sync"></i>
-                                    Restart
-                                </b-button>
-                                <b-button v-on:click="edit" variant="primary" aria-label="editEntries">
-                                    <i class="fas fa-edit"></i>
-                                    Edit
-                                </b-button>
-                            </div>
-                        </b-button-group>
-                    </b-row>
-                </div>
-                <div v-if="appState === 'loading'">
-                    <div class="loadingBar">
-                        <p style="text-align: center;">Shuffling...</p>
-                        <b-progress :value="loadingCounter" :max="100" animated></b-progress>
-                    </div>
-                </div>
-            </b-card>
-            <b-card class="box" v-if="page === 'about'">
-                <p class="card-text text-center">
-                    <img src="images/icons/icon-192x192.png" class="d-inline-block align-top" style="max-height: 50px;" alt="Simple Lottery Logo">
-                </p>
-                <p class="card-text text-center">
-                    <span class="page-title">Welcome!</span>
-                </p>
-                <br>
-                <p class="card-text text-center">
-                    Put in some names and values you want to randomly assign them and you're ready to go!
-                </p>
-                <br>
-            </b-card>
-        </b-container>
+                </b-card>
+            </b-container>
+        </div>
     </div>
+
 
     <!-- Required Stylesheets -->
     <link type="text/css" rel="stylesheet" href="vendor/css/bootstrap.min.css" />

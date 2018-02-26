@@ -17,55 +17,100 @@
 
 <body>
     <div id="app">
-        <b-navbar toggleable="md" type="dark" variant="info">
-            <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
+        <div id="loading-spinner" v-if="!$data">
+            <nav class="navbar navbar-dark bg-info navbar-expand-md">
+                <button type="button" aria-label="Toggle navigation" aria-controls="nav_collapse" aria-expanded="false" class="navbar-toggler">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <a href="#" target="_self" class="navbar-brand">
+                    <img src="images/icons/icon-192x192.png" alt="Simple Lottery Logo" class="d-inline-block align-top" style="max-height: 25px;"> Simple Lottery
+                </a>
+                <div id="nav_collapse" class="navbar-collapse collapse" style="display: none;">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a href="#" target="_self" class="nav-link">
+                                Lottery
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                About
+                            </a>
+                        </li>
+                        <li class="nav-item active">
+                            <a href="/offline-test" class="nav-link">
+                                Offline-Test #1
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/offline-test-2" class="nav-link">
+                                Offline-Test #2
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <div class="loading-spinner">
+                <div class="lds-ellipsis">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </div>
+        </div>
+        <div class="content" v-cloak>
+            <b-navbar toggleable="md" type="dark" variant="info">
+                <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
 
-            <b-navbar-brand href="/">
-                <img src="images/icons/icon-192x192.png" class="d-inline-block align-top" style="max-height: 25px;" alt="Simple Lottery Logo"> Simple Lottery
-            </b-navbar-brand>
+                <b-navbar-brand href="/">
+                    <img src="images/icons/icon-192x192.png" class="d-inline-block align-top" style="max-height: 25px;" alt="Simple Lottery Logo"> Simple Lottery
+                </b-navbar-brand>
 
-            <b-collapse is-nav id="nav_collapse">
-                <b-navbar-nav>
-                    <b-nav-item href="/">
-                        Lottery
-                    </b-nav-item>
-                    <b-nav-item href="/">
-                        About
-                    </b-nav-item>
-                    <b-nav-item href="/offline-test" class="active">
-                        Offline-Test
-                    </b-nav-item>
-                    <b-nav-item href="/offline-test-2">
-                        Offline-Test #2
-                    </b-nav-item>
-                </b-navbar-nav>
-            </b-collapse>
-        </b-navbar>
-        <b-container>
-           <b-card class="box">
-                <p class="card-text text-center">
-                    <span class="page-title">Offline-Test #1</span>
-                </p>
-                <br>
-                <p class="card-text text-center">
-                    This page is not automatically cached from the service worker. So when you go into airplane mode and you try to visit this site you should get an error message.
-                    When you manually cache this side you can also visit it without a network connection.
-                </p>
-                <b-row>
-                    <b-button-group style="width: 100% !important; text-align: center !important;">
-                        <div style="width: 100%">
-                            <b-button onclick="addToCache()" variant="primary" aria-label="addPageToCache">
-                                Add to cache
-                            </b-button>
-                            <b-button onclick="removeFromCache()" variant="primary" aria-label="removePageFromCache">
-                                Remove from cache
-                            </b-button>
-                        </div>
-                    </b-button-group>
-                </b-row>
-                <br>
-            </b-card>
-        </b-container>
+                <b-collapse is-nav id="nav_collapse">
+                    <b-navbar-nav>
+                        <b-nav-item href="/">
+                            Lottery
+                        </b-nav-item>
+                        <b-nav-item href="/">
+                            About
+                        </b-nav-item>
+                        <b-nav-item href="/offline-test" class="active">
+                            Offline-Test #1
+                        </b-nav-item>
+                        <b-nav-item href="/offline-test-2">
+                            Offline-Test #2
+                        </b-nav-item>
+                    </b-navbar-nav>
+                </b-collapse>
+            </b-navbar>
+            <b-container>
+                <b-card class="box">
+                    <p class="card-text text-center">
+                        <span class="page-title">Offline-Test #1</span>
+                    </p>
+                    <br>
+                    <p class="card-text text-center">
+                        This page is not automatically cached from the service worker. So when you go into airplane mode and you try to visit this
+                        site you should get an error message. When you manually cache this side you can also visit it without
+                        a network connection.
+                    </p>
+                    <b-row>
+                        <b-button-group style="width: 100% !important; text-align: center !important;">
+                            <div style="width: 100%">
+                                <b-button onclick="addToCache()" variant="primary" aria-label="addPageToCache">
+                                    Add to cache
+                                </b-button>
+                                <b-button onclick="removeFromCache()" variant="primary" aria-label="removePageFromCache">
+                                    Remove from cache
+                                </b-button>
+                            </div>
+                        </b-button-group>
+                    </b-row>
+                    <br>
+                </b-card>
+            </b-container>
+        </div>
     </div>
 
     <!-- Required Stylesheets -->
