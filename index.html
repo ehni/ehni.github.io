@@ -16,7 +16,6 @@
 </head>
 
 <body>
-
     <div id="app">
         <div id="loading-spinner" v-if="!$data">
             <nav class="navbar navbar-dark bg-info navbar-expand-md">
@@ -65,7 +64,7 @@
                 <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
 
                 <b-navbar-brand href="#" @click="page = 'lottery'">
-                    <img src="images/icons/icon-192x192.png" class="d-inline-block align-top" style="max-height: 25px;" alt="Simple Lottery Logo"> Simple Lottery
+                    <img src="images/icons/icon-192x192.png" class="d-inline-block align-top" style="max-height: 25px;" alt="Simple Lottery Logo">                    Simple Lottery
                 </b-navbar-brand>
 
                 <b-collapse is-nav id="nav_collapse">
@@ -171,8 +170,7 @@
                         </div>
                         <b-list-group class="list-input">
                             <b-list-group-item v-for="(key, index) in keys" :key=key.id style="width: 80%; margin: 0 auto;">
-                                <span class="key">{{ key.name }}</span>
-                                &nbsp;->&nbsp;
+                                <span class="key">{{ key.name }}</span> &nbsp;->&nbsp;
                                 <span class="value">{{ values[index].name }}</span>
                             </b-list-group-item>
                         </b-list-group>
@@ -181,12 +179,10 @@
                             <b-button-group style="width: 100% !important; text-align: center !important;">
                                 <div style="width: 100%">
                                     <b-button v-on:click="startLottery" variant="primary" aria-label="restartLottery">
-                                        <i class="fas fa-sync"></i>
-                                        Restart
+                                        <i class="fas fa-sync"></i> Restart
                                     </b-button>
                                     <b-button v-on:click="edit" variant="primary" aria-label="editEntries">
-                                        <i class="fas fa-edit"></i>
-                                        Edit
+                                        <i class="fas fa-edit"></i> Edit
                                     </b-button>
                                 </div>
                             </b-button-group>
@@ -215,7 +211,6 @@
             </b-container>
         </div>
     </div>
-
 
     <!-- Required Stylesheets -->
     <link type="text/css" rel="stylesheet" href="vendor/css/bootstrap.min.css" />

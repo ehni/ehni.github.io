@@ -3,6 +3,10 @@ if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("/sw.js")
         .then(function (reg) {
             if (!navigator.serviceWorker.controller) {
+                if (window.location.href.indexOf("offline-test") >= 0) {
+                    return;
+                }
+                showNotification("This page is now available offline!");
                 return;
             }
 
@@ -25,7 +29,7 @@ if ("serviceWorker" in navigator) {
                                     positionLeft: true,
                                     backgroundColor: "#424242"
                                 }).showToast();
-    
+
                                 let toast = document.querySelector(".toastify");
                                 toast.addEventListener("click", function (event) {
                                     installingWorker.postMessage({
